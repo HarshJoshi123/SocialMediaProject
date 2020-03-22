@@ -1,0 +1,80 @@
+1.localStorage.getItem(key) 
+Takes key and return its value
+for ex localStorage.getItem("jwt") where jwt was key and it consistted of token and user data
+
+2.localStorage.setItem("key",value)
+stores key and value in local storage
+  For ex 1.return res.json({token,user:{_id,email,name}}); in signin(NODEJS ) fn
+                      it return object with token and user data
+
+         2. return response.json()  in signin fn signin(REACTjs)-->Because of this ,response becomes a promise               
+    
+        3.authenticate(jwt,next) 
+        localStorage.setItem("jwt",JSON.stringify(jwt)); 
+                                   -->in signin REACT JS takes response.json as argument 
+                                    -->jwt is key and token+userdata is value stored as string
+
+
+
+3. isAuthenticated in Menu.js REACTJS takes info from  Key-jwt in localstorage
+if(localStorage.getItem("jwt")){
+  console.log(JSON.parse(localStorage.getItem("jwt")));
+  return JSON.parse(localStorage.getItem("jwt"));
+}            -->checks value of jwt key in localstorage
+             --> Converts string to JSON and returns Object that is  value of key which is {token,user} 
+
+  3.2 IsAuthenticated ? ():() used in Menu that checks if token is and shows signout only. if not,it shows signup and signin
+  
+  3.3           
+
+4.map fn works on array not objects so convert objects to array y removing {} in response in backend  
+
+***5.<div className="container><div className="row">   <div className="col">..</div> <div className="col">..</div>  </div> </div> 
+   displays block(each column like pillar) elements in a row(side by side) like flex 
+         |  col   |     col |   -> 1 row
+
+       container can have multiple rows and a row can have multiple columns
+   
+   5.1 each row has 12 spaces means for ex col-4 col-8 will be two columns that take 4 and 8 spaces in row    
+
+    5.2 See https://getbootstrap.com/docs/4.1/layout/grid/ for grid layout 
+
+ ***6. If you want data for local user --> take from isAuthenticated() fn
+       If you want data for dynamic user(from hyperlink you are visiting) use this.props.params  
+
+ 7.componentWillReceiveProps will work if you want to access your own profile from other users profile page(otherwise your page will not render even if props change)      
+
+ 8.Body in request in form of Object in String(JSON.stringify)
+
+ 9.<PrivateRoute > components passed as props and condition for rendering is written(in PRivateRoute.js)
+
+ ** 10.In EditProfile.js -> const photoUrl= id ? `${process.env.REACT_APP_API_URL}/user/photo/${id}?${new Date().getTime()}`:DefaultImage 
+
+a get request is made at link which return image data in buffer(binary) .if image not stored in mongo,then default image is rendered. with new date( ) we ensure latest image is rendered
+
+*********11 updateUser in apiUser.js not working as isAuthenticated() not able to take newly generated token
+
+12.*** 
+   12.1 Step1.In Profile.js-> <FollowButton onButtonClick={this.clickFollowButton} following={this.state.following}/>
+              -->onButtonClick props (clickfollowbutton which is a fn) is passed to followbutton component
+        
+        Step2. in followbutton.js 
+        this.props.onButtonClick(follow) //onButtonClick is props from parent(Profile.js) component
+                                           follow is fn passed which was in definition of clickfollowbutton fn in Profile.js
+
+        
+        Step3. follow is fn from apiUser which takes token,client id and other user id and makes PUT request                                     
+
+13.Justify content in Bootstrap (for row mostly) moves elements left to right
+   <div className="row justify-content-start"> from left elements are stacked
+   <div className="row justify-content-center"> from center elements are stacked
+   <div className="row justify-content-end"> from rightmost side elements are stacked
+   <div className="row justify-content-around"> elements have space  b/w
+
+ 14. <div class="row align-items-start"> //row is at top of container
+     <div class="row align-items-center"> row is at center ..
+      <div class="row align-items-end">  row is at bottom  ..
+   <div class="column align-items-center"> on column  is placed at center(top to bottom) 
+
+
+

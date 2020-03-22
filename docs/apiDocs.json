@@ -1,0 +1,14 @@
+{
+
+
+	"/":"API DOCS",
+	"/posts":"All post",
+	"/users":"All Users",
+	"/signup":"signupt for new user",
+	"/signin":"log in",
+	"/signout":"log out",
+	"/post/new/:userId":"To enter new post",
+	"/post/by/:userId":"Show posts entered by particular user",
+	"/post/:postId":"Make change or Delete Post",
+	"/user/:userId":"Make changes or show user"
+}
