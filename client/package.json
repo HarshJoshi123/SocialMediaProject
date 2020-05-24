@@ -10,7 +10,7 @@
     "bootstrap-material-design": "^4.1.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-router-dom": "^5.1.2",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.0",
     "reactstrap": "^8.4.1"
   },
