@@ -12,7 +12,7 @@ const fs=require('fs');
 const cors=require('cors')
 dotenv.config();
 const secret=process.env.JWT_SECRET ;
-const port=process.env.PORT || 8080;
+const PORT=process.env.PORT || 8080;
 const uri=process.env.MONGO_URI;
 //Establish connection between mongodb and server 
 mongoose.connect(uri,{useNewUrlParser: true,useUnifiedTopology:true,useCreateIndex: true});
@@ -71,6 +71,6 @@ if (process.env.NODE_ENV === 'production') {
 //End of middlewares
 
 
-app.listen(port,()=>{
-	console.log(`Listening at port :${port}`);   //Node Api listening at port 8080
+app.listen(PORT,()=>{
+	console.log(`Listening at port :${PORT}`);   //Node Api listening at port 8080
 });
