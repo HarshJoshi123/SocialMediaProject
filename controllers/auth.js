@@ -6,7 +6,7 @@ const dotenv = require("dotenv");
 const sgMail=require('@sendgrid/mail');
 
 dotenv.config();              //To import variable from .env file which is used for genrating token          
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY); //Key is used here only
 
 
 exports.signup=async (req,res)=>{
@@ -67,7 +67,7 @@ exports.requireSignin=expressJwt({
 	userProperty:"auth"
 }) //With this we make sure the token held by client contains secret key in process.env for securing routes
    //Use this as middleware to check for token containing secret code
-
+   //attaches info with req.auth
  exports.forgotPassword = (req, res) => {
     if (!req.body) return res.status(400).json({ message: "No request body" });
     if (!req.body.email)

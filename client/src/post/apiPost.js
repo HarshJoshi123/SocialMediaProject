@@ -10,7 +10,7 @@ headers:{
 body:post
 
 }).then(response=>{
-	console.log("error ni hai mcccccc")
+	console.log("No error")
 	return response.json()
 }).catch(err=>
 	console.log(err)

@@ -12,11 +12,12 @@ constructor(){
 	}
 }
 componentDidMount(){
-	list().then(data=>{   //list is imported from apiUser file
+	list().then(data=>{   
       if(data.error){
       	console.log(data.error)
       }
      else{
+      
     this.setState({posts:data})
 
      }
@@ -70,7 +71,7 @@ const {posts} =this.state
 {this.showlist(posts)}
 {posts && (<footer clasName="container text-light  py-5">
    <div className="bg-dark  row">
-     <a href="https://github.com/HarshJoshi123/MySocialMediaProject" target="_blank" className="btn col-md-4 d-flex justify-content-center text-white  "> <div className=" d-flex align-self-center "> Git Link </div></a>
+     <a href="https://github.com/HarshJoshi123/SocialMediaProject" target="_blank" className="btn col-md-4 d-flex justify-content-center text-white  "> <div className=" d-flex align-self-center "> Git Link </div></a>
     <div className="col-md-4 .col-6 d-flex flex-column align-items-center ">
     <p className=" text-white text-muted"> © 2020-2021 </p>     
    <p className="text-white"> ALL RIGHTS RESERVED </p>

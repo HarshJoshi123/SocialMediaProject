@@ -5,6 +5,7 @@ const fs=require('fs') //for file system
 const _=require("lodash") //provides methods to make changes to a json object 
 
 exports.postbyId=(req,res,next,id)=>{
+
 Post.findById(id)
 .populate("postedBy","_id name")
 .populate("comments.postedBy","_id name")
@@ -128,7 +129,7 @@ exports.getPosts=(req,res)=>{
 
 const posts=Post.find().populate("postedBy","_id name").populate("comments.postedBy","_id name").select("_id title body created likes").sort({created:-1})  //To read only selected attributes of documents from collection of Post
 .then(posts=>{                                           //populate() used for foreign documents when reading --> gives _id and name of User in this case
-res.json(posts)})                         //sort({created:-1}) sorting by created descending order 
+res.send(posts)})                         //sort({created:-1}) sorting by created descending order 
 .catch(err=> console.log(err))   //To read documents from Post which signifies Post collection		        
 }
 
@@ -198,7 +199,7 @@ return res.json(req.post); //We get req.post from postById
 }
 
 exports.like=(req,res)=>{
-console.log("jaaaduu")
+
 Post.findByIdAndUpdate(req.body.postId,{$push: {likes:req.body.userId}},{new:true}).exec((err,result)=>{
 	if(err){
 	res.status(400).json({error:"errrrrrrooor"})

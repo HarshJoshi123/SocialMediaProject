@@ -76,6 +76,7 @@ signin(user).then(data=>{
 
 
 
+
 signinform=()=>(
   <form>
      
@@ -102,6 +103,7 @@ return <Redirect to="/" />
 }
 return(
 <section style={ sectionStyle }>
+
 
 <div className="container  container-fluid"> 
       
