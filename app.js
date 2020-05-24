@@ -11,7 +11,7 @@ const cookieparser=require('cookie-parser')
 const fs=require('fs');
 const cors=require('cors')
 dotenv.config();
-
+const secret=process.env.JWT_SECRET ;
 const port=process.env.PORT || 8080;
 const uri=process.env.MONGO_URI;
 //Establish connection between mongodb and server 
@@ -40,9 +40,11 @@ app.get('/',(req,res)=>{
 
 //Middlewares which act between requests 
 //Position of middlewares is very important 
-app.use(cors())
+app.use(cors());
+
 app.use(express.json()); //Deal with incoming request as object and recognizes it as Json which is readable by nodejs 
 app.use(morgan("dev"));  //middleware which tracks request to server 
+//app.use('/api', expressJwt({secret: secret}));
 //app.use(MyOwnMiddleware);
 app.use(expressValidator()); //used to check schema -- for validators/index.js functions which has middleware fn 
 app.use(cookieparser()); //for using cookies in clients browser
