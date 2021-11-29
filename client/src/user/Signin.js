@@ -3,12 +3,26 @@ import {Link,Redirect} from 'react-router-dom'
 import {signin,authenticate} from "../auth/index.js"
 import Background from "../images/darkforest.jpg"
 
-var sectionStyle = {
+const sectionStyle = {
+  root:{
   padding:"10px",
   width: "100%",
-  height: "650px",
-  backgroundImage:`url(${Background})`
+  height: "100%",
+  backgroundImage:`url(${Background})`,
+  backgroundRepeat: 'no-repeat',
+  backgroundSize:'cover'
+  },
+  inp:{
+    backgroundColor: 'white !important',
+     
+    '&:focus': {
+      backgroundColor: '#0D47A1 !important',
+  }
+  
+  }
+  
 };
+
 
 
 class Signin extends Component{
@@ -81,12 +95,12 @@ signinform=()=>(
   <form>
      
 <div className="form-group">
-      <label className="text-muted text-white">Email </label>
-      <input type="email" onChange={this.handlechange("email")} value={this.state.email} className="form-control"/>
+      <label className=" text-white">Email </label>
+      <input type="email" onChange={this.handlechange("email")} value={this.state.email} className="form-control text-white"/>
       </div>
 <div className="form-group">
-      <label className="text-muted text-white">Password </label>
-      <input type="password" className="form-control"  value={this.state.password} onChange={this.handlechange("password")}/>
+      <label className=" text-white">Password </label>
+      <input type="password" className="form-control text-white" style={sectionStyle.inp}  value={this.state.password} onChange={this.handlechange("password")}/>
       </div>
 
 <button onClick={this.handleclick} className="btn btn-raised btn-primary"> Submit </button>
@@ -95,14 +109,20 @@ signinform=()=>(
    </form>
 
 		)
-
+loader = ()=>(
+     <div className="container min-vh-100 d-flex justify-content-center align-items-center"> 
+    <div class="  spinner-border text-white " style={{width:'10em',height:'10em'}} role="status">
+    <span class="sr-only">Loading...</span>
+    </div>
+    </div>
+    )  
 
 render(){
 if(this.state.redirect){
 return <Redirect to="/" /> 
 }
 return(
-<section style={ sectionStyle }>
+<section style={ sectionStyle.root }>
 
 
 <div className="container  container-fluid"> 
@@ -111,7 +131,7 @@ return(
  <div className="alert alert-danger" style={{display:this.state.err? "":"none"}}> {this.state.err}</div>
   
 <div className="alert alert-info" style={{display:this.state.open? "":"none"}}> You are logged in </div>
- {this.state.loading?  (<div className="jumbotron text-center"> <h2> Loading.... </h2>  </div>):""}
+ {this.state.loading?  this.loader():""}
 
    {this.signinform()}
    <p>

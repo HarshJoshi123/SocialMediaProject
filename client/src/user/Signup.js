@@ -68,7 +68,7 @@ signupform=()=>(
       </div>
 <div className="form-group">
       <label className=" text-white">Password </label>
-      <input type="password" className="form-control"  value={this.state.password} onChange={this.handlechange("password")}/>
+      <input type="password" className="form-control text-white"  value={this.state.password} onChange={this.handlechange("password")}/>
       </div>
 
 <button onClick={this.handleclick} className="btn btn-raised btn-primary"> Submit </button>
@@ -82,9 +82,9 @@ signupform=()=>(
 render(){
 return(
 
-<div className="container-fluid" style={{backgroundImage:`url(${Background})`,width:'100%',height:'650px',paddingTop:'10px',margin:'0'}}> 
+<div className="container-fluid" style={{backgroundImage:`url(${Background})`,backgroundRepeat:'no-repeat',backgroundSize:'cover',width:'100%',height:'100%',paddingTop:'10px',margin:'0'}}> 
 <h2 className="mt-5 mb-5 text-white" style={{textShadow:" 1px 1px #ffffff, 1px 1px #ffffff, 1px 1px #ffffff",letterSpacing: "5px"}}>Signup</h2>
- <div className="alert alert-danger" style={{display:this.state.err? "":"none"}}> {this.state.err}</div>
+<div className="alert alert-danger" style={{display:this.state.err? "":"none"}}> {this.state.err}</div>
   
 <div className="alert alert-info" style={{display:this.state.open? "":"none"}}> New account has been created .Please <Link to="/signin">Sign In</Link></div>
  

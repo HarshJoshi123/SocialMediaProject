@@ -5,7 +5,8 @@ const { userById } =require('../controllers/user.js')
 
 const router=express.Router();  //router object made to handle routing
 
-router.post("/signup",userSignupValidator,signup);  //**First validator.fn is handled then postcontroller fn
+//router.post("/signup",userSignupValidator,signup);  //**First validator.fn is handled then postcontroller fn
+router.post("/signup",signup);  //**First validator.fn is handled then postcontroller fn
 router.post("/signin",signin);                                                                               //if validator fn generates error then postcontroller fn not performed
 router.get("/signout",signout); //router.get("/",(req,res)=>{res.send("Laudo");}); //ALSO WORKS
 router.put("/forgot-password", forgotPassword);

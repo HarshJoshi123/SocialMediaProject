@@ -82,8 +82,8 @@ update(userId,token,this.userData).then(data=>{   //userData from Formadata
 };
 isValid=()=>{
 const {name,password,email,Filesize}=this.state
-if(Filesize > 100000){
-	this.setState({err:"File should be less than 100kb",loading:false});
+if(Filesize > 7000000){
+	this.setState({err:"File should be less than 7MB",loading:false});
 	return false;
 }
 if(name.length===0){

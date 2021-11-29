@@ -28,9 +28,9 @@ if(localStorage.getItem("jwt")){
   return JSON.parse(localStorage.getItem("jwt"));
 }
 else{
-   console.log("Authenticate mai dikkat")
+   console.log("Not authenticated")
 
-  return false
+  return false;
 }
 
 }
@@ -63,7 +63,8 @@ export const signin=user=>{
 }
 
 export const signup=user=>{
-	return fetch(`${process.env.REACT_APP_API_URL}/signup`,{            //Return fetch is imp.
+
+  return fetch(`${process.env.REACT_APP_API_URL}/signup`,{            //Return fetch is imp.
   method:"POST",
   headers:{
   	Accept:"application/json",
@@ -74,7 +75,7 @@ export const signup=user=>{
 }).then(response=>{
 	return response.json();
 	
-}).catch(err=>console.log('Bh'))
+}).catch(err=>console.log('Error in Signup'))
 
 }
 

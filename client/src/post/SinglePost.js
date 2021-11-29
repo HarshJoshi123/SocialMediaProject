@@ -11,7 +11,8 @@ state={
   like:false, //Keeps track whether user has liked this post or not(to display like button or not)
   likes:0,  //Total likes on a post 
 comments:[],
-redirecttosignin:false
+redirecttosignin:false,
+imgVis:true
 }
 
 checkLike=(likes)=>{
@@ -24,7 +25,7 @@ return match
 componentDidMount(){
 const postId=this.props.match.params.postId
 const token=isAuthenticated().token
-console.log("bsdk")
+
  singlePost(postId).then(data=>{
 if(data.error){
 	console.log("error")
@@ -74,7 +75,7 @@ liketoggle=()=>{
     this.setState({redirecttosignin:true})
    return false 
   }
-console.log("harami")
+
 let callApi= this.state.like ? unlike:like //if already like then unlike
 const userId=isAuthenticated().user._id
 const postId=this.state.post._id
@@ -103,9 +104,14 @@ const postername= post.postedBy
 const {like,likes}=this.state
 return(
    <div className="card-body">
-    <img src={`${process.env.REACT_APP_API_URL}/post/photo/${post._id}`} alt={post.title}  onError={i=>i.target.src=`${DefaultPost}`} style={{height:"300px",width:"100%",objectFit:"cover"}} className="img-thumbnail mb-3"/>
+    <div>
+    { this.state.imgVis ?
+    
+    <img src={`${process.env.REACT_APP_API_URL}/post/photo/${post._id}`} alt={''} onError={()=>this.setState({imgVis:false})} style={{objectFit:'contain'}} className="img-thumbnail mb-3"/> : ''
+    
+   }
+   </div>
     {like ? (<h3 className="fa fa-thumbs-up text-success bg-dark" style={{padding:'10px',borderRadius:'50%'}} onClick={this.liketoggle}>{likes} Likes </h3>):(<h3 style={{padding:'10px',borderRadius:'50%'}} className="fa fa-thumbs-up  bg-dark"  onClick={this.liketoggle}>{likes} Likes </h3>)} 
-    <p className="card-text">{post.body}</p>
     <br/>
     <p className="font-italic"> Posted By <Link to={`${posterId}`}> {postername } </Link> 
 
@@ -134,7 +140,7 @@ else if(redirecttosignin){
 }
 
 return(
-<div className="container">
+<div className="container text-white">
 <h2 className="display-2 mt-2 mb-2"> {post.title}   </h2>
 { post ?
    this.renderPost(post) : null }

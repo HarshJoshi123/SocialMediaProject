@@ -19,7 +19,7 @@ mongoose.connect(uri,{useNewUrlParser: true,useUnifiedTopology:true,useCreateInd
 mongoose.set('useFindAndModify', false);
 const connection=mongoose.connection;
 connection.once('open',()=>{
-	console.log("hogya yipee");
+	console.log("Mongo connection running");
 })
 mongoose.connection.on("error", (err) => {
         console.log("MongoDB connection error. Please make sure MongoDb is running.", err);
@@ -38,8 +38,7 @@ app.get('/',(req,res)=>{
 	});
 });
 
-//Middlewares which act between requests 
-//Position of middlewares is very important 
+
 app.use(cors());
 
 app.use(express.json()); //Deal with incoming request as object and recognizes it as Json which is readable by nodejs 
@@ -72,5 +71,5 @@ if (process.env.NODE_ENV === 'production') {
 
 
 app.listen(PORT,()=>{
-	console.log(`Listening at port :${PORT}`);   //Node Api listening at port 8080
+	console.log(`Listening at port :${PORT}`);  
 });

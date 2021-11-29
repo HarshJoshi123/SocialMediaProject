@@ -41,8 +41,9 @@ if(this.state.redirect){
 	return(
 
 
-<button onClick={this.deleteconfirmed} className="btn btn-raised btn-danger">
-Delete </button> 
+<button onClick={this.deleteconfirmed} className="d-flex p-0 m-0 justify-content-center " style={{backgroundColor:'transparent',border:'none'}} >
+<i class="fa fa-trash text-danger" aria-hidden="true" style={{fontSize:'50',padding:'0'}} ></i>
+ </button> 
 
 
 

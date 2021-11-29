@@ -43,13 +43,13 @@ userSchema
 .virtual('password')
 .set(function(password){
     //password not actually stored in database but in indirect way with key so it is virtual
-    this._password=password; //temporary var _password
+    this._password=password; //temporary var _password, prop. starting with _ are not persisted in DB
     this.salt=uuidv1();    //generate random code
     this.hashed_password=this.encryptPassword(password) ;//encryptpassword method of schema hence this. is used
 })
-.get(function(){
-    return this._password;
-});
+  .get(function(){      //is this even required ? because we dont need password at all, only for hashing 
+      return this._password;   
+  });
 
 
 userSchema.methods = {
@@ -61,10 +61,10 @@ userSchema.methods = {
       encryptPassword:function(password){  //Schema can store functions as well
         
                 if(!password){
-                    return "hhhhhhh";
+                    return "No Password";
                 }
-                try{ //console.log(this.salt); 
-                    //console.log("BROO");
+                try{  
+                 
                    return  crypto.createHmac('sha1',this.salt) 
                             .update(password)
                             .digest("hex"); //sha1 is method of enc,this.salt is code,hex is hexadecimal

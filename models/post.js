@@ -4,17 +4,14 @@ const {ObjectId}=mongoose.Schema
 console.log(typeof(ObjectId));
 const postSchema=new mongoose.Schema({
 	title:{
-		type:String,
-		required:"Title is Required",
-		
+		type:String,	
 	},
 	body:{
 		type:String,
-		required:"Body is required",
-		},
+	},
 	photo:{
 		data:Buffer,        //Reserve space for image file which is Buffer
-	   contenType:String
+	    contenType:String
 	},	
 	postedBy:{
 		type:ObjectId,         //type object of collection User-

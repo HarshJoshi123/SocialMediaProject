@@ -10,7 +10,9 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY); //Key is used here only
 
 
 exports.signup=async (req,res)=>{
-	try{const userExists=await User.findOne({email:req.body.email}) ;//Email will be sent in request 
+	
+    console.log(req.body)
+    try{const userExists=await User.findOne({email:req.body.email}) ;//Email will be sent in request 
 	if(userExists)                                              //findone() method searches for that one document that matches given criteria
 		return res.status(403).json({error:"Email is taken"});
 
@@ -20,23 +22,20 @@ await user.save();
 res.status(200).json({
 	user });
 
-    }              //res to console of server
+    }             
 	 catch(err){
 		console.log(err);
 	            } 
 }
-exports.signin=(req,res)=>{       //Invoked when user is trying to login
-	//Find user based on email
+exports.signin=(req,res)=>{       
 const {email,password}=req.body
 User.findOne({email},(err,user)=>{
-//error if user has no email
 	if(err || !user){
 		return res.status(401).json({
 			err:"User with that email doesnt exist"
 		})
-	}//if user exists,authenticate
+	}
 	//Generate encrypted password again and compare with stored encrypted password
-
 if(!user.authenticate(password)){
 	console.log(password);
 	return res.status(401).json({
@@ -49,6 +48,7 @@ if(!user.authenticate(password)){
 const token=jwt.sign({_id:user._id},process.env.JWT_SECRET);
 //persist token t in cookies with a expiry date
 res.cookie("t",token,{expire:new Date()+9999});
+
 //return response with user id and token to frontend
 const {_id,name,email}=user
 return res.json({token,user:{_id,email,name}});
@@ -57,7 +57,6 @@ return res.json({token,user:{_id,email,name}});
 	
 }
 exports.signout=(req,res)=>{
-	console.log("Mc");
 	res.clearCookie("t");
 	return res.json({message:"SignOut Success"});
 }

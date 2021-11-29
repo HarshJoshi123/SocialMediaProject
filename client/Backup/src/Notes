@@ -1,0 +1,46 @@
+1.If you are not default exporting a component to other ,then -> 
+
+export const load=>...
+import {load} from ...
+
+2.Use of ternary operator
+{
+this.state.loading ?(<div> ...</div) : (<div> ...</div>)
+
+}
+
+3.Use of props
+
+<loading message={this.state.loader}/>
+const load=(props)=> {props.message}
+
+4. To merge array 
+
+this.setState({
+    users:[...this.state.users,...response.data.results],  //merges response with users
+    Loading:false
+  })
+
+5. For changing state in forms
+
+handleclick= name=>e=>{    //Exactly in same order
+
+this.setState({
+	[name]:e.target.value
+});
+
+}
+In JSX-
+<lable className="text-muted">EMAIL </lable>
+      <input type="text" onChange={this.handleclick("email")} className="form-control"/>
+
+6. To use a portion of JSX as function so that it can be used anywhere
+
+signupform=()=>(
+<div>  ..  </div>
+)      
+
+in JSX
+{this.signupform()}  //will display JSX here
+
+7. export default withRouter(component) gives component access to this.history property which can be used to redirect or check current path

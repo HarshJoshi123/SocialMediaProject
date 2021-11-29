@@ -25,7 +25,7 @@ this.state={
 
 
 init=(userId)=>{
-console.log("dalle")
+
 const token=isAuthenticated().token
 
 read(userId,token).then(data=>{          //checks for other user by its id in hyperlink
@@ -103,12 +103,21 @@ render(){
 	
 const redirectToSignIn=this.state.redirectToSignIn
 if(redirectToSignIn){
-	console.log("BRUHHHHHHHHHHHHHHHHHHHHHHHHHHHHhh")
 return <Redirect to="/signin"/>
 }
+if(!this.state.user.name || !this.state.user.email){
+  return (
+	 <div className="container min-vh-100 d-flex justify-content-center align-items-center"> 
+	<div class="  spinner-border text-white " style={{width:'10em',height:'10em'}} role="status">
+	<span class="sr-only">Loading...</span>
+  </div>
+  </div>
+  )
+}
+
 return(
 
-<div className="container">
+<div className="container text-white ">
 <h2 className="mt-5 mb-5"> Profile    </h2>
 <div className="row">  
 <div className="col-md-4">
@@ -119,16 +128,16 @@ return(
 
 <div className="col-md-8">
 <div className="lead mt-2">
- <p> Hello {user.name}    </p>
-<p>Email {user.email}   </p>
+ <p> {user.name}    </p>
+<p> {user.email}   </p>
 <p> {`Created On${new Date(user.created).toDateString()}`}   </p>
 </div>
 {isAuthenticated().user && isAuthenticated().user._id === this.state.user._id ? (
 
-<div className="d-inline-block ">
-<Link className="btn btn-raised btn-success mr-5" to={`/create/post`}>  Create Post </Link>
-
-<Link className="btn btn-raised btn-info mr-5" to={`/user/edit/${this.state.user._id}`}>  EDIT PROFILE </Link>
+<div className="d-flex">
+<Link className="mr-3 pt-1 d-flex justify-content-center" to={`/user/edit/${this.state.user._id}`} style={{textDecoration:'none'}}>   
+<i class="fa fa-edit text-info" style={{fontSize:'50'}}></i>
+</Link>
 <DeleteUser userId={user._id}/>
 </div>
 

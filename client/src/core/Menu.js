@@ -9,7 +9,7 @@ import {isAuthenticated,signout} from "../auth/index.js"
 
  const isactive=(history,path)=>{
    if(history.location.pathname===path){ 
-return {color:"#ff9900"}
+return {color:"#009688"}
 }
    else  return {color:"#ffffff"}
 
@@ -22,7 +22,7 @@ const Menu=({history})=>(       //Extracting history from props
 <div>
 
 
-<ul className="nav nav-tabs bg-dark justify-content-around">
+<ul className="nav nav-tabs  justify-content-around" style={{backgroundColor:'#18191b'}}>
   <li className="nav-item">
     <Link className="nav-link" style={isactive(history,"/")}  to="/"> Home </Link>
   </li>
@@ -51,13 +51,13 @@ const Menu=({history})=>(       //Extracting history from props
 <Link className="nav-link" to="/findpeople" style={isactive(history,`/findpeople`)}>
 FIND PEOPLE  </Link>      
   </li>
-  <li className="nav-item" >
+  {/* <li className="nav-item" >
  
 <Link className="nav-link" to="/create/post" style={isactive(history,`/create/post`)}>
 Create Post  </Link>      
-  </li>
-<li className="nav-item" >
-<span className="nav-link"  onClick={()=>signout(()=>history.push('/'))} > SIGNOUT </span>    
+  </li> */}
+<li className="nav-item " >
+<button className="nav-link text-white bg-transparent"   onClick={()=>signout(()=>history.push('/'))} > SIGNOUT  </button>    
   </li>
     </>)}
 

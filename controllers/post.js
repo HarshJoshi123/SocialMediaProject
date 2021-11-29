@@ -15,8 +15,6 @@ if(err||!post){
 }
 req.post=post;
 
-console.log("postbyid chal gya");
-
 next();
 //.populate("comments","text").populate("comments.postedBy","_id name")
 
@@ -66,6 +64,11 @@ form.parse(req,(err,fields,files)=>{
 		post.photo.data=fs.readFileSync(files.photo.path)
 		post.photo.contentType =files.photo.type
 	}
+	else if(!post.title||post.title==""){
+		return res.status(400).json({
+			error:"No data sent"
+		})
+	}
 	post.save((err,result)=>{
     if(err){
     	return res.status(400).json({
@@ -81,8 +84,7 @@ form.parse(req,(err,fields,files)=>{
 
 
 exports.isPost=(req,res,next)=>{
-
-console.log("Haha");
+ 
 req.auth._id=req.auth._id.toString();
 req.post.postedBy._id=req.post.postedBy._id.toString();
 let isposter= req.auth && req.post && (req.post.postedBy._id==req.auth._id);
@@ -91,25 +93,23 @@ console.log(isposter);
 
 if(!isposter){
 
-	res.status(401).json({
+	return res.status(401).json({
 		error:"User Not Authorised" //Verifies whether it is correct user 
 	});
 }
 if(isposter){
-console.log("ispost chal gya");
 next();
 }
 }
 exports.deletePost=(req,res)=>{
-console.log("Post ke laude lag gye");
 let post=req.post;
 post.remove((err,post)=>{
 	if(err){
-		res.status(401).json({
+		return res.status(401).json({
 			error:err
 		})
 	}
-	res.json({
+	return res.json({
 		message:"Post deleted successfully"
 	})
 })
@@ -123,10 +123,6 @@ post.remove((err,post)=>{
 
 exports.getPosts=(req,res)=>{
 
-	//res.send("Hello Buddy from controllers");
-	/*res.json({dost:"bruh",
-		      son:"bruh"}); */
-
 const posts=Post.find().populate("postedBy","_id name").populate("comments.postedBy","_id name").select("_id title body created likes").sort({created:-1})  //To read only selected attributes of documents from collection of Post
 .then(posts=>{                                           //populate() used for foreign documents when reading --> gives _id and name of User in this case
 res.send(posts)})                         //sort({created:-1}) sorting by created descending order 
@@ -138,7 +134,7 @@ exports.createPost=(req,res,next)=>{
 	form.keepExtensions=true;
 	form.parse(req,(err,fields,files)=>{  //extract fields and files from req
  		if(err){
-			res.status(400).json({
+			return res.status(400).json({
 				error:"Image could not be uploaded"
 			})
 		}
@@ -149,18 +145,25 @@ exports.createPost=(req,res,next)=>{
 			post.photo.data=fs.readFileSync(files.photo.path)
 			post.photo.contenType=files.photo.type
 		}
+		else{
+			if(!post.title || post.title==""){
+				return res.status(400).json({
+					error:"No data sent"
+				})
+			}
+		}
 		post.save((err,result)=>{
 			if(err){
-				res.status(400).json({
+				return res.status(400).json({
 					error:err
 				})
 			}
-			res.json({result})
+			return res.json({result})
 		})
    
   	});
 	
-	//console.log("CREATING POST:",req.body);
+
 /* post.save((err,body)=>{    //post.save saves new document to mongo cluster
 	if(err){
 		res.status(400).json({
@@ -202,7 +205,7 @@ exports.like=(req,res)=>{
 
 Post.findByIdAndUpdate(req.body.postId,{$push: {likes:req.body.userId}},{new:true}).exec((err,result)=>{
 	if(err){
-	res.status(400).json({error:"errrrrrrooor"})
+	res.status(400).json({error:err})
 }    
 else{
 	res.status(200).json(result)
@@ -214,7 +217,7 @@ else{
 exports.unlike=(req,res)=>{
 Post.findByIdAndUpdate(req.body.postId,{$pull:{likes:req.body.userId}},{new:true}
 ).exec((err,result)=>{if(err){
-	res.status(401).json({error:"errrrrrrooor"})
+	res.status(401).json({error:err})
 }    
 else{
 	res.json(result)
@@ -254,7 +257,7 @@ Post.findByIdAndUpdate(req.body.postId,{$pull: {comments:{_id:comment._id}}},{ne
 .populate('postedBy','_id name')             //takes _id and name of User who posted post
 .exec((err,result)=>{                    //populate is important for foreign model(when retrieving info)
 	if(err){
-	res.status(400).json({error:"errrrrrrooor"})
+	res.status(400).json({error:err})
 }    
 else{
 	res.status(200).json(result)

@@ -15,7 +15,7 @@ constructor(){
 		error:'',
 		photo:'',
 		Filesize:0,
-		loading:false
+		loading:true
 	}
 
 }
@@ -23,11 +23,11 @@ init=(postId)=>{             //takes userId and makes GET req to server using it
 
 singlePost(postId).then(data=>{
 	if(data.error){
-		this.setState({redirectToHome:true})
+		this.setState({redirectToHome:true,loading:false})
 		
 	}
 	else{            //data is setstated after read from mongo 
-		this.setState({title:data.title,body:data.body,id:data._id,error:''})   //user in state is current user you are visiting BY LINK
+		this.setState({loading:false,title:data.title,body:data.body,id:data._id,photo:data.photo,error:''})   //user in state is current user you are visiting BY LINK
 	}
 })
 
@@ -58,22 +58,20 @@ updatePost(postId,token,this.postData).then(data=>{   //userData from Formadata
      
     else{
     	 this.setState({redirecttoHome:true,error:"",loading:false,title:"",body:"",photo:"",Filesize:0})
-    	 console.log("post created:",data)
-          	
-    	
+    	 console.log("post created:",data)  	
     }
 })
 
 }
 };
 isValid=()=>{
-const {title,body,Filesize}=this.state
-if(Filesize > 100000){
-	this.setState({error:"File should be less than 100kb",loading:false});
+const {title,Filesize}=this.state
+if(Filesize > 7000000){
+	this.setState({error:"File should be less than 7MB",loading:false});
 	return false;
 }
-if(title.length===0 || body.length===0){
-	this.setState({error:"Body and Title are Required",loading:false})
+if(title.length===0 && this.state.photo==''){
+	this.setState({error:"Title or Picture Required",loading:false})
   return false
 }
 return true
@@ -86,12 +84,10 @@ editpostform=(title,body)=>(
       </div>
      <div className="form-group">
       <label className="text-muted">Title </label>
-      <input type="text" onChange={this.handlechange("title")} value={this.state.title} className="form-control"/>
+	  
+      <textarea type="text" style={{color:'white',resize:'none',background:'#3a3b3d',padding:'25px',borderRadius:'25px'}} onChange={this.handlechange("title")} value={this.state.title} className="form-control"/>
       </div>
-     <div className="form-group">
-      <label className="text-muted">Body </label>
-      <textarea type="text" onChange={this.handlechange("body")} value={this.state.body} className="form-control"/>
-      </div> 
+     
 
 <button onClick={this.handleclick} className="btn btn-raised btn-primary"> Update Post</button>
 
@@ -109,6 +105,14 @@ this.init(postId)
 
 }
 
+loader = ()=>(
+	<div className="container min-vh-100 d-flex justify-content-center align-items-center"> 
+   <div class="  spinner-border text-white " style={{width:'10em',height:'10em'}} role="status">
+   <span class="sr-only">Loading...</span>
+   </div>
+   </div>
+   )  
+
 
 render(){
 	const {body,title,id,redirecttoHome}=this.state
@@ -116,29 +120,22 @@ render(){
 console.log(redirecttoHome)
 
 if(redirecttoHome){
-	console.log("Ja mc")
 return <Redirect to={`/user/${isAuthenticated().user._id}`} />;
 } 
 
 return(
 
-<div className="container">
+<div className="container text-white">
 <h2 className="mt-5 mb-5"> {title}  </h2>
 <div className="alert alert-danger" style={{display:this.state.error? "":"none"}}> {this.state.error}</div>
-{this.state.loading?  (<div className="jumbotron text-center"> <h2> Loading.... </h2>  </div>):""}
-
-<img src={`${process.env.REACT_APP_API_URL}/post/photo/${id}`} style={{height:"200px",width:"auto"}} onError={i=>(i.target.src=`${DefaultImage}`)} className="img-thumbnail" alt={title} />
+{this.state.loading? this.loader():""}
+{this.state.photo ? (
+	<img src={`${process.env.REACT_APP_API_URL}/post/photo/${id}`} style={{height:"200px",width:"auto"}} onError={i=>(i.target.src=`${DefaultImage}`)} className="img-thumbnail" alt={title} />
+):''}
 
 {this.editpostform(title,body)}
 </div>
 	)
-
-
-
 }
-
-
-
-
 }
 export default EditPost
